@@ -4,7 +4,7 @@
  *  \brief Implement your parallel mergesort in this file.
  */
 
-
+#include <omp.h>
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -83,6 +83,11 @@ void seqMergeSort(keytype* arr, int start,int end)
 
 void parallelSort (int N, keytype* A)
 {
+	omp_set_num_threads(4);
+	#pragma omp parallel
+	{
+		printf("world\n " );
+	}
   /* Lucky you, you get to start from scratch */
 	seqMergeSort(A,0,N-1);				
 }
