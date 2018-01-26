@@ -81,15 +81,43 @@ void seqMergeSort(keytype* arr, int start,int end)
 
 }
 
+void par_merge(keytype* arr,int start,int end)
+{
+        if(start>=end) return;
+        int mid = int((start+end+1)/2);
+        #pragma omp task
+        par_merge(arr,start,mid-1);
+        par_merge(arr,mid,end);
+        #pragma omp taskwait
+        seqMerge(arr,start,mid,end);
+
+
+}
+
+
 void parallelSort (int N, keytype* A)
 {
-	omp_set_num_threads(4);
-	#pragma omp parallel
+	int sp = 1; //0-sequential 1-parallel
+	if(sp == 0)
 	{
-		printf("world\n " );
+		omp_set_num_threads(4);
+		#pragma omp parallel
+		{
+			printf("world\n " );
+		}
+	  /* Lucky you, you get to start from scratch */
+		seqMergeSort(A,0,N-1);	
 	}
-  /* Lucky you, you get to start from scratch */
-	seqMergeSort(A,0,N-1);				
+	else
+	{
+		omp_set_num_threads(4);
+		#pragma omp parallel
+		{
+			#pragma omp single nowait
+			par_merge(A,0,N-1);
+		}
+		
+	}			
 }
 
 
