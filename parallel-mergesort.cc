@@ -100,11 +100,12 @@ void parallelSort (int N, keytype* A)
 	int sp = 1; //0-sequential 1-parallel
 	if(sp == 0)
 	{
-		omp_set_num_threads(4);
+		omp_set_num_threads(8);
 		#pragma omp parallel
 		{
-			printf("world\n " );
+			printf("world " );
 		}
+		printf("\n");
 	  /* Lucky you, you get to start from scratch */
 		seqMergeSort(A,0,N-1);	
 	}
