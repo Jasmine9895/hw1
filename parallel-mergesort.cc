@@ -21,15 +21,18 @@ void seqMerge(keytype* arr,int start,int middle,int end)
 
 	//Copy first part in A and second part in B
 
-	keytype* A = newKeys(len_a);
-	memcpy(A,arr,len_a*sizeof(keytype));
+//	keytype* A = newKeys(len_a);
+//	memcpy(A,arr,len_a*sizeof(keytype));
 
-	keytype* B = newKeys(len_b);
-	memcpy(B,arr + middle,len_b*sizeof(keytype));
+//	keytype* B = newKeys(len_b);
+//	memcpy(B,arr + middle,len_b*sizeof(keytype));
+	keytype A[len_a];
+	keytype B[len_b];
 
 	for(int i=0;i<len_a;i++) A[i] = arr[i+start];
 
-		for(int i=0;i<len_b;i++) B[i] = arr[i+middle];
+
+	for(int i=0;i<len_b;i++) B[i] = arr[i+middle];
 
 
 			while(position_a < len_a && position_b < len_b)
@@ -137,23 +140,24 @@ void parallel_merge(keytype* arr,int start,int middle,int end)
     }
     return;
   }
-  #pragma omp task
   int position_a=0,position_b=0;
   int len_a = middle-start;
   int len_b = end-middle+1;
   int position_arr = start;
-  #pragma omp taskwait
   //Copy first part in A and second part in B
-  keytype* A = newKeys(len_a);
-  keytype* B = newKeys(len_b);
+//  keytype* A = newKeys(len_a);
+ // keytype* B = newKeys(len_b);
 
-  #pragma omp task
-  memcpy(A,arr+start,len_a*sizeof(keytype));
+//  memcpy(A,arr+start,len_a*sizeof(keytype));
 
-  memcpy(B,arr + middle,len_b*sizeof(keytype));
-  
+//  memcpy(B,arr + middle,len_b*sizeof(keytype));
+  keytype A[len_a];
+  keytype B[len_b];
+
+  for(int i=0;i<len_a;i++) A[i] = arr[i+start];
+
+  for(int i=0;i<len_b;i++) B[i] = arr[i+middle];
   int mid_a = len_a/2;
-  #pragma omp taskwait
 
   keytype v = A[mid_a];
   int k = binary_search(B,v,len_b);
@@ -167,31 +171,24 @@ void parallel_merge(keytype* arr,int start,int middle,int end)
     //Below 3 can be parallelized
     //
     int i=0;
-    #pragma omp parallel shared(arr,B,p,q,r,mid_a,end)private(i)
-    {
 	
-    	#pragma omp for     	
 	for(i=p;i<q;i++)
     	{
       		arr[i] = B[i-p];
 
     	}
-    	#pragma omp for 
 	for(i=q;i<r;i++)
     	{
       		arr[i] = A[mid_a+i-q];
     	}
-    	#pragma omp for 
 	for(i=r;i<=end;i++)
     	{
       		arr[i] = B[k+1+i-r];
     	}
-    }
+    
 
-    #pragma omp task
     parallel_merge(arr,start,p,q-1);
     parallel_merge(arr,q,r,end);
-    #pragma omp taskwait
 
   }
   else if(k<0)
@@ -232,10 +229,8 @@ void par_sort(keytype* arr,int start,int end)
 {
         if(start>=end) return;
         int mid = int((start+end+1)/2);
-        #pragma omp task
         par_sort(arr,start,mid-1);
         par_sort(arr,mid,end);
-        #pragma omp taskwait
         parallel_merge(arr,start,mid,end);
 
 
@@ -243,8 +238,8 @@ void par_sort(keytype* arr,int start,int end)
 
 void parallelSort (int N, keytype* A)
 {
-	int sp = 1; //0-sequential 1-parallel
-	if(sp == 0)
+	int sp = 0; //0-sequential 1-parallel
+	if(sp == 1)
 	{
 		omp_set_num_threads(8);
 		#pragma omp parallel
@@ -257,12 +252,12 @@ void parallelSort (int N, keytype* A)
 	}
 	else
 	{
-		omp_set_num_threads(8);
-		#pragma omp parallel
-		{
-			#pragma omp single nowait
+	//	omp_set_num_threads(8);
+	//	#pragma omp parallel
+	//	{
+	//		#pragma omp single nowait
 			par_sort(A,0,N-1);
-		}
+	//	}
 		
 	}			
 }
