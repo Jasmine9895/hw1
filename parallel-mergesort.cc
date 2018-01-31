@@ -271,11 +271,11 @@ void parallelSort (int N, keytype* A)
 	else
 	{
 		omp_set_num_threads(8);
-//		#pragma omp parallel
-//		{
-//			#pragma omp single nowait
+		#pragma omp parallel
+		{
+			#pragma omp single nowait
 			par_sort(A,0,N-1);
-//		}
+		}
 		
 	}			
 }
