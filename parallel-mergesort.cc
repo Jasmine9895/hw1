@@ -169,26 +169,26 @@ void parallel_merge(keytype* arr,int start,int middle,int end)
     //Below 3 can be parallelized
     //
     int i=0;
-  //  #pragma omp parallel shared(arr,B,p,q,r,mid_a,end)private(i)
-  //  {
+    #pragma omp parallel shared(arr,B,p,q,r,mid_a,end)private(i)
+    {
 	
-    //	#pragma omp for     	
+    	#pragma omp for     	
 	for(i=p;i<q;i++)
     	{
       		arr[i] = B[i-p];
 
     	}
-    //	#pragma omp for 
+    	#pragma omp for 
 	for(i=q;i<r;i++)
     	{
       		arr[i] = A[mid_a+i-q];
     	}
-    //	#pragma omp for 
+    	#pragma omp for 
 	for(i=r;i<=end;i++)
     	{
       		arr[i] = B[k+1+i-r];
     	}
-  //  }
+    }
 
     #pragma omp task
     parallel_merge(arr,start,p,q-1);
