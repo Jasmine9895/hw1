@@ -137,23 +137,19 @@ void parallel_merge(keytype* arr,int start,int middle,int end)
     }
     return;
   }
-  #pragma omp task
   int position_a=0,position_b=0;
   int len_a = middle-start;
   int len_b = end-middle+1;
   int position_arr = start;
-  #pragma omp taskwait
   //Copy first part in A and second part in B
   keytype* A = newKeys(len_a);
   keytype* B = newKeys(len_b);
 
-  #pragma omp task
   memcpy(A,arr+start,len_a*sizeof(keytype));
 
   memcpy(B,arr + middle,len_b*sizeof(keytype));
   
   int mid_a = len_a/2;
-  #pragma omp taskwait
 
   keytype v = A[mid_a];
   int k = binary_search(B,v,len_b);
