@@ -142,13 +142,19 @@ void parallel_merge(keytype* arr,int start,int middle,int end)
   int len_b = end-middle+1;
   int position_arr = start;
   //Copy first part in A and second part in B
-  keytype* A = newKeys(len_a);
-  keytype* B = newKeys(len_b);
+//  keytype* A = newKeys(len_a);
+//  keytype* B = newKeys(len_b);
 
-  memcpy(A,arr+start,len_a*sizeof(keytype));
+//  memcpy(A,arr+start,len_a*sizeof(keytype));
 
-  memcpy(B,arr + middle,len_b*sizeof(keytype));
+//  memcpy(B,arr + middle,len_b*sizeof(keytype));
+ 
+  keytype A[len_a];
+  keytype B[len_b];  
+
+  for(int i=0;i<len_a;i++) A[i] = arr[i+start];
   
+  for(int i=0;i<len_b;i++) B[i] = arr[i+middle]; 
   int mid_a = len_a/2;
 
   keytype v = A[mid_a];
