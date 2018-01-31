@@ -241,13 +241,13 @@ void par_sort(keytype* arr,int start,int end)
        if(start>=end) return;
         int mid = int((start+end+1)/2);
 	omp_set_num_threads(8);
-//	#pragma omp parallel
-//	{
-  //      	#pragma omp task
+	#pragma omp parallel
+	{
+        	#pragma omp task
         	par_sort(arr,start,mid-1);
         	par_sort(arr,mid,end);
-    //    	#pragma omp taskwait
-//	}
+        	#pragma omp taskwait
+	}
         parallel_merge(arr,start,mid,end);
 
 
