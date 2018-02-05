@@ -1,0 +1,5 @@
+/var/spool/sge/compute-13-6/job_scripts/3600681: line 18: 29202 Segmentation fault      (core dumped) ./mergesort-omp 10000000
+/var/spool/sge/compute-13-6/job_scripts/3600681: line 18: 29210 Segmentation fault      (core dumped) ./mergesort-omp 10000000
+/var/spool/sge/compute-13-6/job_scripts/3600681: line 18: 29219 Segmentation fault      (core dumped) ./mergesort-omp 10000000
+/var/spool/sge/compute-13-6/job_scripts/3600681: line 18: 29230 Segmentation fault      (core dumped) ./mergesort-omp 10000000
+/var/spool/sge/compute-13-6/job_scripts/3600681: line 18: 29238 Segmentation fault      (core dumped) ./mergesort-omp 10000000

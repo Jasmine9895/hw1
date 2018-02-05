@@ -1,0 +1,18 @@
+Script began: Tue Jan 30 17:50:32 PST 2018
+Node: compute-13-5.local
+Current directory: /data/users/jbhanush/hw1
+
+=== Running 5 trials of Mergesort on 10 million elements ... ===
+*** Trial 1 ***
+Timer: gettimeofday
+Timer resolution: ~ 1 us (?)
+
+N == 10000000
+
+Sequential: 2.07706 seconds ==> 4.8145 million keys per second
+	(Array is sorted.)
+Parallel sort: 275.054 seconds ==> 0.0363565 million keys per second
+	(Array is sorted.)
+	(Arrays are equal.)
+
+*** Trial 2 ***

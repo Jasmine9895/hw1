@@ -1,0 +1,1 @@
+/var/spool/sge/compute-13-2/job_scripts/3601071: line 18:  4663 Segmentation fault      (core dumped) ./mergesort-omp 10000000
